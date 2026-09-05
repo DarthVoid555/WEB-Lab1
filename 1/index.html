@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портфолио · Веб-разработчик</title>
+  <!-- Шрифт и иконки (Font Awesome) -->
+  <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Rubik+Wet+Paint&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
+  <style>
+    /* ----- Глобальные сбросы и переменные ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #000000;
+      --bg-card: #272525;
+      --text-dark: #ffffff;
+      --text-muted: #919191;
+      --accent: #940202;
+      --accent-hover: #ff0000;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+      --radius: 20px;
+      --transition: 0.25s ease;
+    }
+
+    body {
+      font-family: "Rubik Wet Paint", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ----- Шапка (Header) ----- */
+    header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(91, 107, 240, 0.08);
+    }
+
+    .header-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo i {
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--accent), #ff3c00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ----- Общие секции ----- */
+    section {
+      padding: 70px 0 60px;
+      scroll-margin-top: 80px; /* чтобы якорь не прятался под шапкой */
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title i {
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    /* ----- About / О себе ----- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      background: var(--bg-card);
+      padding: 40px 44px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .about-text p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .about-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .achievements {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-left: 8px;
+    }
+
+    .achievements li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.05rem;
+      padding: 10px 14px;
+      background: var(--bg-primary);
+      border-radius: 14px;
+      transition: background var(--transition);
+    }
+
+    .achievements li i {
+      color: var(--accent);
+      width: 24px;
+      font-size: 1.2rem;
+    }
+
+    .achievements li:hover {
+      background: #eef2ff;
+    }
+
+    /* ----- Skills / Навыки ----- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      padding: 28px 24px 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      text-align: center;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 35px rgba(91, 107, 240, 0.10);
+    }
+
+    .skill-card i {
+      font-size: 2.6rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .skill-card h3 {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 8px;
+      background: #e6e9f2;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ff5e00);
+      border-radius: 20px;
+      width: 0%; /* задаётся инлайн-стилем */
+    }
+
+    .skill-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ----- Portfolio / Примеры работ ----- */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .portfolio-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .portfolio-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 24px 40px rgba(91, 107, 240, 0.12);
+    }
+
+    .portfolio-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #d9dff5;
+    }
+
+    .portfolio-info {
+      padding: 20px 22px 24px;
+    }
+
+    .portfolio-info h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .portfolio-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .portfolio-tag {
+      display: inline-block;
+      background: #eef2ff;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-top: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ----- Contacts / Контакты ----- */
+    .contacts-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      background: var(--bg-card);
+      padding: 40px 44px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color var(--transition);
+      flex: 1 0 200px;
+    }
+
+    .contact-item i {
+      font-size: 1.8rem;
+      color: var(--accent);
+      width: 40px;
+      text-align: center;
+    }
+
+    .contact-item:hover {
+      color: var(--accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 24px;
+      margin-left: auto;
+    }
+
+    .social-links a {
+      color: var(--text-muted);
+      font-size: 1.8rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* ----- Footer ----- */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #eef2f6;
+      padding: 28px 0;
+      margin-top: 20px;
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-grid p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-grid a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin: 0 8px;
+      transition: color var(--transition);
+    }
+
+    .footer-grid a:hover {
+      color: var(--accent);
+    }
+
+    /* ----- Адаптивность ----- */
+    @media (max-width: 850px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        padding: 30px 24px;
+      }
+
+      .contacts-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 30px 24px;
+      }
+
+      .social-links {
+        margin-left: 0;
+        margin-top: 12px;
+      }
+
+      .section-title {
+        font-size: 1.9rem;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .header-grid {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 8px 16px;
+      }
+
+      .logo {
+        justify-content: center;
+      }
+
+      section {
+        padding: 50px 0 40px;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="container header-grid">
+    <div class="logo">
+      <i class="fas fa-code"></i>
+      <span>voidcurse.ru</span>
+    </div>
+    <nav>
+      <a href="#about">Обо мне</a>
+      <a href="#skills">Навыки</a>
+      <a href="#portfolio">Портфолио</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title"><i class="fas fa-user-astronaut"></i> О себе</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Приветствую, заблудшая душа, что оказалась на этой странице. Меня зовут Максим, и я не могу жить без метала.
+            Я пишу музыку, рисую, писательствую и делаю обложки. 
+        </p>
+        <p>Принимаю заказы музыки (для видеоигр в том числе), обложек для альбомов и офорлений постеров, а также занимаюсь дизайном мрачных логотипов и пишу мрачную лирику.
+            Обращайся, если не боишься грязи и ценишь честный, стильный труд с характером!
+        </p>
+      </div>
+      <ul class="achievements">
+        <li><i class="fas fa-award"></i> Участник хакатона "Siberian Game Jam"</li>
+        <li><i class="fas fa-laptop-code"></i> 5+ завершённых музыкальных альбомов</li>
+        <li><i class="fas fa-graduation-cap"></i> 30+ текстов на английском языке</li>
+        <li><i class="fas fa-users"></i> Десятки обложек</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills">
+  <div class="container">
+    <h2 class="section-title"><i class="fas fa-cogs"></i> Навыки</h2>
+    <div class="skills-grid">
+      <!-- карточка 1 -->
+      <div class="skill-card">
+        <i class="fab fa-html5"></i>
+        <h3>Лирика</h3>
+        <div class="skill-bar"><div class="skill-fill" style="width: 80%;"></div></div>
+        <div class="skill-label"><span>Продвинутый</span><span>80%</span></div>
+      </div>
+      <!-- карточка 2 -->
+      <div class="skill-card">
+        <i class="fab fa-js-square"></i>
+        <h3>Обложки и постеры</h3>
+        <div class="skill-bar"><div class="skill-fill" style="width: 72%;"></div></div>
+        <div class="skill-label"><span>Уверенный</span><span>72%</span></div>
+      </div>
+      <!-- карточка 3 -->
+      <div class="skill-card">
+        <i class="fab fa-react"></i>
+        <h3>Дизайн логотипов</h3>
+        <div class="skill-bar"><div class="skill-fill" style="width: 65%;"></div></div>
+        <div class="skill-label"><span>Средний</span><span>65%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PORTFOLIO ===== -->
+<section id="portfolio">
+  <div class="container">
+    <h2 class="section-title"><i class="fas fa-folder-open"></i> Портфолио</h2>
+    <div class="portfolio-grid">
+      <!-- карточка 1 -->
+      <div class="portfolio-card">
+        <img src="https://avatars.mds.yandex.net/i?id=e6a987cb95bbda2a276ac959803e8558_l-5235569-images-thumbs&n=13" alt="Альбом Inner Circles">
+        <div class="portfolio-info">
+          <h3>Альбом «Inner Circles»</h3>
+          <p>Дум сладж альбом об усталости и ненависти, с монументальными, злыми рифами и искажённым шепчущим вокалом, что звучит как крик из бездны.</p>
+          <span class="portfolio-tag">Doom Metal / Sludge Metal</span>
+        </div>
+      </div>
+      <!-- карточка 2 -->
+      <div class="portfolio-card">
+        <img src="https://avatars.mds.yandex.net/i?id=e6a987cb95bbda2a276ac959803e8558_l-5235569-images-thumbs&n=13" alt="Pastel Tones Mysticism - Обложка для EP">
+        <div class="portfolio-info">
+          <h3>Pastel Tones Mysticism</h3>
+          <p>Обложка для моего EP-альбома, выполненная в цифровой графике.</p>
+          <span class="portfolio-tag">Stoner Metal / Album Cover</span>
+        </div>
+      </div>
+      <!-- карточка 3 -->
+      <div class="portfolio-card">
+        <img src="https://avatars.mds.yandex.net/i?id=e6a987cb95bbda2a276ac959803e8558_l-5235569-images-thumbs&n=13" alt="Лого Righteous Jawbone">
+        <div class="portfolio-info">
+          <h3>Лого Righteous Jawbone</h3>
+          <p>Логотип в дум метал стиле, выполненный от руки, вдохновлённый библейской историей о Самсоне</p>
+          <span class="portfolio-tag">Doom metal / Logo</span>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACTS ===== -->
+<section id="contacts">
+  <div class="container">
+    <h2 class="section-title"><i class="fas fa-address-card"></i> Контакты</h2>
+    <div class="contacts-wrapper">
+      <a href="mailto:max@voidcurse.ru" class="contact-item">
+        <i class="fas fa-envelope"></i> max@voidcurse.ru
+      </a>
+      <a href="tel:+79001234567" class="contact-item">
+        <i class="fas fa-phone-alt"></i> +7 (900) 123-45-67
+      </a>
+      <div class="social-links">
+        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container footer-grid">
+    <p>&copy; 2026 dev.studio — все права защищены</p>
+    <p>
+      <a href="#about">Обо мне</a> ·
+      <a href="#skills">Навыки</a> ·
+      <a href="#portfolio">Портфолио</a> ·
+      <a href="#contacts">Контакты</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
