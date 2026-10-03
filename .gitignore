@@ -10,3 +10,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+node_modules/
+dist/
+

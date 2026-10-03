@@ -1,0 +1,12 @@
+{
+    "name": "lab-3-portfolio",
+    "version": "1.0.0",
+    "description": "Портфолио с Sass и темами",
+    "scripts": {
+      "sass:dev": "sass --watch scss/main.scss:dist/css/main.css",
+      "build": "sass --no-source-map --style=compressed scss/main.scss:dist/css/main.css"
+    },
+    "devDependencies": {
+      "sass": "^1.80.0"
+    }
+  }

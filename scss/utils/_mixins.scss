@@ -1,0 +1,33 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'functions' as *;
+
+// ----- respond-to: медиа-запрос по имени брейкпоинта -----
+@mixin respond-to($breakpoint) {
+  @if not map-has-key($breakpoints, $breakpoint) {
+    @error "Миксин respond-to: неизвестный брейкпоинт `#{$breakpoint}`. Доступные: #{map-keys($breakpoints)}.";
+  }
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// ----- flex-center: центрирование -----
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+// ----- visually-hidden: скрытие для screen reader -----
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

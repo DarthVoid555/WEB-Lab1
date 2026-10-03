@@ -1,25 +1,49 @@
 /* ============================================================
-   lab2-portfolio-jquery — динамическое поведение страницы
+   lab-3-portfolio-jquery — ЛР №3
    ============================================================ */
 
    $(document).ready(function () {
 
     /* ============================================================
-       1) ВЫПАДАЮЩЕЕ МЕНЮ (для мобильных)
+       0) ТЕМА: переключение + сохранение в localStorage
        ============================================================ */
-    $('.menu-toggle').on('click', function () {
-      $('#main-nav').slideToggle(300);
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+  
+    applyTheme(initialTheme);
+  
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        $('html').attr('data-theme', 'dark');
+        $('.js-theme-toggle i').removeClass('fa-moon').addClass('fa-sun');
+      } else {
+        $('html').removeAttr('data-theme');
+        $('.js-theme-toggle i').removeClass('fa-sun').addClass('fa-moon');
+      }
+      localStorage.setItem('theme', theme);
+    }
+  
+    $('.js-theme-toggle').on('click', function () {
+      const current = $('html').attr('data-theme') === 'dark' ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
   
-    // Закрываем меню при клике на ссылку (на мобильных)
-    $('#main-nav a').on('click', function () {
+    /* ============================================================
+       1) ВЫПАДАЮЩЕЕ МЕНЮ
+       ============================================================ */
+    $('.js-menu-toggle').on('click', function () {
+      $('.js-nav').slideToggle(300);
+    });
+  
+    $('.js-nav a').on('click', function () {
       if ($(window).width() <= 767) {
-        $('#main-nav').slideUp(300);
+        $('.js-nav').slideUp(300);
       }
     });
   
     /* ============================================================
-       2) ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРНЫМ ССЫЛКАМ
+       2) ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ
        ============================================================ */
     $('a[href^="#"]').on('click', function (e) {
       const target = $(this.hash);
@@ -35,62 +59,58 @@
        3) ДИНАМИЧЕСКАЯ ГАЛЕРЕЯ ИЗ JSON
        ============================================================ */
     $.getJSON('data/portfolio.json', function (data) {
-      const $grid = $('#portfolio-grid');
-      $grid.empty(); // убираем "Загрузка..."
+      const $grid = $('.js-portfolio-grid');
+      $grid.empty();
   
       $.each(data, function (index, item) {
-        const $card = $('<div>').addClass('portfolio-card');
+        const $card = $('<div>').addClass('card js-card');
   
-        // Картинка
         $('<img>')
+          .addClass('card__image')
           .attr('src', item.image)
           .attr('alt', item.title)
           .appendTo($card);
   
-        // Информация
-        const $info = $('<div>').addClass('portfolio-info');
+        const $info = $('<div>').addClass('card__info');
+        $('<h3>').addClass('card__title').text(item.title).appendTo($info);
+        $('<p>').addClass('card__text').text(item.description).appendTo($info);
   
-        $('<h3>').text(item.title).appendTo($info);
-        $('<p>').text(item.description).appendTo($info);
-  
-        // Теги
-        const $tags = $('<div>').addClass('portfolio-tags');
+        const $tags = $('<div>').addClass('card__tags');
         $.each(item.tags, function (i, tag) {
-          $('<span>').addClass('portfolio-tag').text(tag).appendTo($tags);
+          $('<span>').addClass('card__tag').text(tag).appendTo($tags);
         });
         $tags.appendTo($info);
   
         $info.appendTo($card);
         $card.appendTo($grid);
   
-        // Анимация появления (fadeIn с задержкой)
         $card.hide().delay(index * 150).fadeIn(500);
       });
-    }).fail(function () {
-      $('#portfolio-grid').html('<p class="error">Не удалось загрузить работы :(</p>');
+    }).fail(function (jqxhr, textStatus, error) {
+      console.error('Ошибка загрузки JSON:', textStatus, error);
+      $('.js-portfolio-grid').html(
+        '<p class="portfolio__error">Не удалось загрузить работы :(</p>'
+      );
     });
   
     /* ============================================================
        4) МОДАЛЬНОЕ ОКНО
        ============================================================ */
-    $('#open-feedback').on('click', function () {
-      $('#feedback-modal').fadeIn(300);
-      $('body').css('overflow', 'hidden'); // блокируем скролл фона
+    $('.js-modal-open').on('click', function () {
+      $('.js-modal').fadeIn(300).css('display', 'flex');
+      $('body').css('overflow', 'hidden');
     });
   
-    // Закрытие по крестику
-    $('.modal-close').on('click', function () {
+    $('.js-modal-close').on('click', function () {
       closeModal();
     });
   
-    // Закрытие по клику на оверлей
-    $('#feedback-modal').on('click', function (e) {
+    $('.js-modal').on('click', function (e) {
       if (e.target === this) {
         closeModal();
       }
     });
   
-    // Закрытие по Escape
     $(document).on('keydown', function (e) {
       if (e.key === 'Escape') {
         closeModal();
@@ -98,101 +118,105 @@
     });
   
     function closeModal() {
-      $('#feedback-modal').fadeOut(200);
+      $('.js-modal').fadeOut(200);
       $('body').css('overflow', '');
     }
   
     /* ============================================================
-       5) ВАЛИДАЦИЯ ФОРМЫ + СИМУЛЯЦИЯ ОТПРАВКИ ЧЕРЕЗ $.AJAX
+       5) ВАЛИДАЦИЯ ФОРМЫ + СИМУЛЯЦИЯ ОТПРАВКИ
        ============================================================ */
-    $('#feedback-form').on('submit', function (e) {
+    $('.js-feedback-form').on('submit', function (e) {
       e.preventDefault();
   
       let isValid = true;
+      $('.js-error').text('');
+      $('.js-form-status').removeClass('form__status--success form__status--error').text('');
+      $('.js-field').removeClass('form__input--invalid');
   
-      // Сброс ошибок
-      $('.error-msg').text('');
-      $('#form-status').removeClass('success error').text('');
-  
-      // Имя
       const name = $('#name').val().trim();
       if (name.length < 2) {
         $('#error-name').text('Введите имя (минимум 2 символа)');
+        $('#name').addClass('form__input--invalid');
         isValid = false;
       }
   
-      // Email
       const email = $('#email').val().trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         $('#error-email').text('Введите корректный email');
+        $('#email').addClass('form__input--invalid');
         isValid = false;
       }
   
-      // Сообщение
       const message = $('#message').val().trim();
       if (message.length < 5) {
         $('#error-message').text('Сообщение слишком короткое');
+        $('#message').addClass('form__input--invalid');
         isValid = false;
       }
   
       if (!isValid) return;
   
-      // СИМУЛЯЦИЯ ОТПРАВКИ через $.ajax
       $.ajax({
-        url: 'https://jsonplaceholder.typicode.com/posts', // тестовый endpoint
+        url: 'https://jsonplaceholder.typicode.com/posts',
         method: 'POST',
-        data: {
-          name: name,
-          email: email,
-          message: message
-        },
+        data: { name: name, email: email, message: message },
         beforeSend: function () {
-          $('.btn-submit').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Отправка...');
+          $('.js-submit').prop('disabled', true)
+            .html('<i class="fas fa-spinner fa-spin"></i> Отправка...');
         },
         success: function () {
-          $('#form-status')
-            .addClass('success')
+          $('.js-form-status')
+            .addClass('form__status--success')
             .text('Сообщение успешно отправлено! Я свяжусь с тобой в ближайшее время.');
-          $('#feedback-form')[0].reset();
+          $('.js-feedback-form')[0].reset();
   
           setTimeout(function () {
             closeModal();
-            $('.btn-submit').prop('disabled', false).html('<i class="fas fa-paper-plane"></i> Отправить');
+            $('.js-submit').prop('disabled', false)
+              .html('<i class="fas fa-paper-plane"></i> Отправить');
           }, 2000);
         },
         error: function () {
-          $('#form-status')
-            .addClass('error')
+          $('.js-form-status')
+            .addClass('form__status--error')
             .text('Ошибка при отправке. Попробуй позже.');
-          $('.btn-submit').prop('disabled', false).html('<i class="fas fa-paper-plane"></i> Отправить');
+          $('.js-submit').prop('disabled', false)
+            .html('<i class="fas fa-paper-plane"></i> Отправить');
         }
       });
     });
   
     /* ============================================================
-       6) КАРУСЕЛЬ НАВЫКОВ (кнопки + автопрокрутка)
+       6) КАРУСЕЛЬ
        ============================================================ */
-    const $track = $('#skills-track');
+    const $track = $('.js-carousel-track');
     const $cards = $track.children('.skill-card');
     const totalCards = $cards.length;
-    const cardsToShow = 3; // сколько карточек видно одновременно
-    const maxIndex = Math.max(0, totalCards - cardsToShow);
     let currentIndex = 0;
     let autoPlay;
+    let cardsToShow = getCardsToShow();
+    let maxIndex = Math.max(0, totalCards - cardsToShow);
+  
+    function getCardsToShow() {
+      const w = $(window).width();
+      if (w <= 767) return 1;
+      if (w <= 1023) return 2;
+      return 3;
+    }
   
     function updateCarousel() {
       const cardWidth = $cards.first().outerWidth(true);
       $track.css('transform', 'translateX(-' + (currentIndex * cardWidth) + 'px)');
     }
   
-    $('.carousel .next').on('click', function () {
+    $('.js-carousel-next').on('click', function () {
       currentIndex = (currentIndex >= maxIndex) ? 0 : currentIndex + 1;
       updateCarousel();
       resetAutoPlay();
     });
   
-    $('.carousel .prev').on('click', function () {
+    $('.js-carousel-prev').on('click', function () {
       currentIndex = (currentIndex <= 0) ? maxIndex : currentIndex - 1;
       updateCarousel();
       resetAutoPlay();
@@ -212,16 +236,18 @@
   
     startAutoPlay();
   
-    // Обновление при ресайзе
     $(window).on('resize', function () {
+      cardsToShow = getCardsToShow();
+      maxIndex = Math.max(0, totalCards - cardsToShow);
+      if (currentIndex > maxIndex) currentIndex = maxIndex;
       updateCarousel();
     });
   
     /* ============================================================
-       7) ПОДСВЕТКА АКТИВНОГО ПУНКТА МЕНЮ ПРИ СКРОЛЛЕ
+       7) ПОДСВЕТКА АКТИВНОГО ПУНКТА МЕНЮ
        ============================================================ */
     const $sections = $('section');
-    const $navLinks = $('#main-nav a');
+    const $navLinks = $('.js-nav a');
   
     $(window).on('scroll', function () {
       const scrollPos = $(this).scrollTop() + 100;
@@ -233,23 +259,22 @@
   
         if (scrollPos >= top && scrollPos < bottom) {
           const id = $section.attr('id');
-          $navLinks.removeClass('active');
-          $navLinks.filter('[href="#' + id + '"]').addClass('active');
+          $navLinks.removeClass('nav__link--active');
+          $navLinks.filter('[href="#' + id + '"]').addClass('nav__link--active');
         }
       });
   
-      // Кнопка "Вверх"
       if ($(this).scrollTop() > 400) {
-        $('#scroll-top').fadeIn(300);
+        $('.js-scroll-top').fadeIn(300);
       } else {
-        $('#scroll-top').fadeOut(300);
+        $('.js-scroll-top').fadeOut(300);
       }
     });
   
     /* ============================================================
        8) КНОПКА "ВВЕРХ"
        ============================================================ */
-    $('#scroll-top').on('click', function () {
+    $('.js-scroll-top').on('click', function () {
       $('html, body').animate({ scrollTop: 0 }, 600);
     });
   

@@ -1,0 +1,70 @@
+@use '../utils' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(10px);
+  padding: rem(12px) rem(24px);
+  border: none;
+  border-radius: rem(10px);
+  font-family: inherit;
+  font-size: rem(16px);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background $transition-base, transform $transition-base, box-shadow $transition-base;
+  text-decoration: none;
+
+  // ----- Состояния -----
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(148, 2, 2, 0.4);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  // ----- Модификаторы -----
+  &--primary {
+    background: var(--color-accent);
+    color: #fff;
+
+    &:hover {
+      background: var(--color-accent-hover);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+
+    &:hover {
+      background: var(--color-accent);
+      color: #fff;
+    }
+  }
+
+  &--small {
+    padding: rem(8px) rem(16px);
+    font-size: rem(14px);
+  }
+
+  &--block {
+    width: 100%;
+  }
+}

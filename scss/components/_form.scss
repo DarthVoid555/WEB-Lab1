@@ -1,0 +1,66 @@
+@use '../utils' as *;
+
+.form {
+  &__group {
+    margin-bottom: rem(18px);
+    display: flex;
+    flex-direction: column;
+    gap: rem(6px);
+  }
+
+  &__label {
+    font-size: rem(15px);
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+  }
+
+  &__input,
+  &__textarea {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: rem(10px);
+    padding: rem(12px) rem(14px);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: rem(16px);
+    transition: $transition-base;
+    resize: vertical;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(148, 2, 2, 0.15);
+    }
+
+    &--invalid {
+      border-color: #ff2e2e;
+    }
+  }
+
+  &__error {
+    color: #ff4a4a;
+    font-size: rem(14px);
+    min-height: rem(16px);
+  }
+
+  &__status {
+    margin-top: rem(16px);
+    padding: rem(10px);
+    border-radius: $radius-sm;
+    font-size: rem(15px);
+    text-align: center;
+    min-height: rem(20px);
+
+    &--success {
+      background: rgba(0, 148, 60, 0.15);
+      color: #3ddc84;
+      border: 1px solid #3ddc84;
+    }
+
+    &--error {
+      background: rgba(255, 46, 46, 0.15);
+      color: #ff4a4a;
+      border: 1px solid #ff4a4a;
+    }
+  }
+}

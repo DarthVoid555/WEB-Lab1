@@ -1,0 +1,81 @@
+@use '../utils' as *;
+
+.contacts {
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(30px);
+    background: var(--color-bg-card);
+    padding: rem(40px) rem(44px);
+    border-radius: $radius-md;
+    box-shadow: $shadow-card;
+    border: 1px solid var(--color-border);
+
+    @include respond-to(tablet) {
+      padding: rem(30px) rem(32px);
+    }
+
+    @include respond-to(mobile) {
+      flex-direction: column;
+      align-items: stretch;
+      padding: rem(24px) rem(18px);
+      gap: rem(16px);
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: rem(18px);
+    font-size: rem(18px);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color $transition-base;
+    flex: 1 0 200px;
+
+    i {
+      font-size: rem(29px);
+      color: var(--color-accent);
+      width: rem(40px);
+      text-align: center;
+    }
+
+    &:hover {
+      color: var(--color-accent);
+    }
+
+    @include respond-to(mobile) {
+      flex: 1;
+      font-size: rem(16px);
+    }
+  }
+}
+
+// ----- Соцсети -----
+.socials {
+  display: flex;
+  gap: rem(24px);
+  margin-left: auto;
+
+  &__link {
+    color: var(--color-text-muted);
+    font-size: rem(29px);
+    transition: color $transition-base, transform $transition-base;
+
+    &:hover {
+      color: var(--color-accent);
+      transform: translateY(-3px);
+    }
+  }
+
+  @include respond-to(mobile) {
+    margin-left: 0;
+    justify-content: center;
+    margin-top: rem(8px);
+    gap: rem(20px);
+
+    &__link {
+      font-size: rem(26px);
+    }
+  }
+}

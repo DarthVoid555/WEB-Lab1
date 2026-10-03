@@ -1,0 +1,31 @@
+@use '../utils' as *;
+
+.scroll-top {
+  display: none;
+  position: fixed;
+  bottom: rem(30px);
+  right: rem(30px);
+  width: rem(52px);
+  height: rem(52px);
+  border-radius: $radius-round;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  font-size: rem(19px);
+  box-shadow: 0 8px 20px rgba(148, 2, 2, 0.5);
+  transition: $transition-base;
+  z-index: 999;
+  @include flex-center;
+
+  &:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-4px);
+  }
+
+  @include respond-to(mobile) {
+    bottom: rem(20px);
+    right: rem(20px);
+    width: rem(44px);
+    height: rem(44px);
+  }
+}
