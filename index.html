@@ -3,150 +3,583 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>voidcurse · Портфолио</title>
-  
-  
-  <!-- Шрифты -->
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Подключаем отдельный CSS файл -->
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Vue 3 Lab 5 — Семь задач</title>
+
+  <!-- Vue 3 через CDN (глобальная сборка) -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #0f0f12;
+      color: #e8e8e8;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+      color: #ff4a4a;
+      letter-spacing: 2px;
+    }
+
+    /* Общий стиль для карточек-задач */
+    .task {
+      background: #1a1818;
+      border: 1px solid #2a1a1a;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .task__title {
+      color: #ff4a4a;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #2a1a1a;
+      padding-bottom: 12px;
+    }
+
+    /* Формы и инпуты */
+    input,
+    button {
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      background: #0d0b0b;
+      border: 1px solid #3a2a2a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #e8e8e8;
+      width: 100%;
+      max-width: 300px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff4a4a;
+      box-shadow: 0 0 0 3px rgba(255, 74, 74, 0.15);
+    }
+
+    button {
+      background: #940202;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background: #ff0000;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:focus-visible {
+      outline: 2px solid #ff4a4a;
+      outline-offset: 3px;
+    }
+
+    /* Разные блоки */
+    .greeting {
+      font-size: 1.4rem;
+      color: #ffb4b4;
+      margin-top: 12px;
+    }
+
+    .counter-display {
+      font-size: 2.5rem;
+      color: #ff4a4a;
+      margin: 12px 0;
+      font-weight: 700;
+    }
+
+    .description {
+      margin-top: 12px;
+      padding: 16px;
+      background: #0d0b0b;
+      border-left: 3px solid #ff4a4a;
+      border-radius: 8px;
+      color: #b8b8b8;
+    }
+
+    .list {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .list__item {
+      padding: 10px 14px;
+      background: #0d0b0b;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border-left: 3px solid #940202;
+    }
+
+    .list__number {
+      color: #ff4a4a;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .form-row > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-row label {
+      font-size: 0.85rem;
+      color: #919191;
+    }
+
+    .user-list {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .user-list__item {
+      padding: 10px 14px;
+      background: #0d0b0b;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-left: 3px solid #ff4a4a;
+    }
+
+    .user-list__age {
+      color: #ff4a4a;
+      font-weight: 700;
+    }
+
+    .computed-result {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .computed-result__item {
+      background: #0d0b0b;
+      padding: 14px 20px;
+      border-radius: 8px;
+      border-left: 3px solid #940202;
+    }
+
+    .computed-result__label {
+      color: #919191;
+      font-size: 0.9rem;
+    }
+
+    .computed-result__value {
+      color: #ff4a4a;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .clock {
+      margin-top: 16px;
+    }
+
+    .clock__time {
+      font-size: 2rem;
+      color: #ff4a4a;
+      font-weight: 700;
+      letter-spacing: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .clock__greeting {
+      font-size: 1.2rem;
+      color: #ffb4b4;
+      margin-top: 8px;
+    }
+
+    .clock__hint {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 12px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="container header-grid">
-    <div class="logo">
-      <i class="fas fa-skull"></i>
-      <span>voidcurse.ru</span>
-    </div>
-    <nav>
-      <a href="#about">Обо мне</a>
-      <a href="#skills">Навыки</a>
-      <a href="#portfolio">Портфолио</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
-  </div>
-</header>
+<div id="app" class="container">
+  <h1>Vue 3 — Лабораторная работа №5</h1>
 
-<!-- ===== ABOUT ===== -->
-<section id="about">
-  <div class="container">
-    <h2 class="section-title"><i class="fas fa-user-astronaut"></i> О себе</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>Приветствую, заблудшая душа, что оказалась на этой странице. Меня зовут Максим, и я не могу жить без метала. Я пишу музыку, рисую, писательствую и делаю обложки.</p>
-        <p>Принимаю заказы музыки (для видеоигр в том числе), обложек для альбомов и оформлений постеров, а также занимаюсь дизайном мрачных логотипов и пишу мрачную лирику. Обращайся, если не боишься грязи и ценишь честный, стильный труд с характером!</p>
-      </div>
-      <ul class="achievements">
-        <li><i class="fas fa-award"></i> Участник хакатона "Siberian Game Jam"</li>
-        <li><i class="fas fa-laptop-code"></i> 5+ завершённых музыкальных альбомов</li>
-        <li><i class="fas fa-graduation-cap"></i> 30+ текстов на английском языке</li>
-        <li><i class="fas fa-users"></i> Десятки обложек</li>
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 1: Приветствие (Options API)         -->
+  <!-- ============================================ -->
+  <greeting-task class="task"></greeting-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 2: Счётчик (Composition API)         -->
+  <!-- ============================================ -->
+  <counter-task class="task"></counter-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 3: Условный рендеринг                -->
+  <!-- ============================================ -->
+  <toggle-task class="task"></toggle-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 4: Список                            -->
+  <!-- ============================================ -->
+  <list-task class="task"></list-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 5: Мини-форма                        -->
+  <!-- ============================================ -->
+  <form-task class="task"></form-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 6: Computed                          -->
+  <!-- ============================================ -->
+  <computed-task class="task"></computed-task>
+
+  <!-- ============================================ -->
+  <!-- ЗАДАЧА 7: Watch и жизненный цикл            -->
+  <!-- ============================================ -->
+  <clock-task class="task"></clock-task>
+</div>
+
+<script>
+/* ============================================================
+   ЗАДАЧА 1: Приветствие — OPTIONS API
+   ============================================================ */
+const GreetingTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 1. Привет, Vue! (Options API)</h2>
+      <label>Введите имя:</label>
+      <input type="text" v-model="name" placeholder="Например, Максим">
+      <p class="greeting">Привет, {{ name || 'незнакомец' }}!</p>
+    </div>
+  `,
+  // Options API: data как функция
+  data() {
+    return {
+      name: ''
+    };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 2: Счётчик — COMPOSITION API
+   ============================================================ */
+const CounterTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 2. Реактивный счётчик (Composition API)</h2>
+      <p class="counter-display">{{ count }}</p>
+      <button @click="increment">+1</button>
+      <button @click="reset">Сброс</button>
+    </div>
+  `,
+  setup() {
+    const { ref } = Vue;
+    const count = ref(0);
+
+    function increment() {
+      count.value++;
+    }
+
+    function reset() {
+      count.value = 0;
+    }
+
+    return { count, increment, reset };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 3: Условный рендеринг — COMPOSITION API
+   ============================================================ */
+const ToggleTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 3. Условный рендеринг</h2>
+      <button @click="toggle">
+        {{ isVisible ? 'Скрыть описание' : 'Показать описание' }}
+      </button>
+
+      <!-- v-if / v-else -->
+      <p v-if="isVisible" class="description">
+        Дум-метал — это не просто музыка, это состояние души.
+        Тяжёлые рифы, мрачные тексты, атмосфера бездны.
+      </p>
+      <p v-else class="description" style="opacity: 0.5;">
+        Описание скрыто. Нажми кнопку выше.
+      </p>
+    </div>
+  `,
+  setup() {
+    const { ref } = Vue;
+    const isVisible = ref(true);
+
+    function toggle() {
+      isVisible.value = !isVisible.value;
+    }
+
+    return { isVisible, toggle };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 4: Список — COMPOSITION API
+   ============================================================ */
+const ListTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 4. Список элементов (v-for)</h2>
+      <ul class="list">
+        <li
+          v-for="(item, index) in items"
+          :key="item.id"
+          class="list__item"
+        >
+          <span class="list__number">{{ index + 1 }}.</span>
+          {{ item.title }}
+        </li>
       </ul>
     </div>
-  </div>
-</section>
+  `,
+  setup() {
+    const { ref } = Vue;
 
-<!-- ===== SKILLS ===== -->
-<section id="skills">
-  <div class="container">
-    <h2 class="section-title"><i class="fas fa-cogs"></i> Навыки</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <i class="fas fa-feather-alt"></i>
-        <h3>Лирика</h3>
-        <div class="skill-bar"><div class="skill-fill" style="width: 80%;"></div></div>
-        <div class="skill-label"><span>Продвинутый</span><span>80%</span></div>
-      </div>
-      <div class="skill-card">
-        <i class="fas fa-paint-brush"></i>
-        <h3>Обложки и постеры</h3>
-        <div class="skill-bar"><div class="skill-fill" style="width: 72%;"></div></div>
-        <div class="skill-label"><span>Уверенный</span><span>72%</span></div>
-      </div>
-      <div class="skill-card">
-        <i class="fas fa-dragon"></i>
-        <h3>Дизайн логотипов</h3>
-        <div class="skill-bar"><div class="skill-fill" style="width: 65%;"></div></div>
-        <div class="skill-label"><span>Средний</span><span>65%</span></div>
-      </div>
+    const items = ref([
+      { id: 1, title: 'Inner Circles — дум-сладж альбом' },
+      { id: 2, title: 'Pastel Tones Mysticism — обложка EP' },
+      { id: 3, title: 'Righteous Jawbone — дизайн логотипа' },
+      { id: 4, title: 'Bestiary of the Abyss — арт-пак для игры' },
+      { id: 5, title: 'Ritual of the Void — атмосферный трек' }
+    ]);
+
+    return { items };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 5: Мини-форма — COMPOSITION API
+   ============================================================ */
+const FormTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 5. Мини-форма</h2>
+
+      <form @submit.prevent="addUser">
+        <div class="form-row">
+          <div>
+            <label>Имя</label>
+            <input type="text" v-model="newUser.name" placeholder="Имя">
+          </div>
+          <div>
+            <label>Возраст</label>
+            <input type="number" v-model.number="newUser.age" placeholder="Возраст">
+          </div>
+          <button type="submit">Добавить</button>
+        </div>
+      </form>
+
+      <ul class="user-list">
+        <li
+          v-for="(user, index) in users"
+          :key="index"
+          class="user-list__item"
+        >
+          <span>{{ user.name }}</span>
+          <span class="user-list__age">{{ user.age }} лет</span>
+        </li>
+      </ul>
+
+      <p v-if="users.length === 0" style="color: #666; margin-top: 12px;">
+        Пока никого не добавили.
+      </p>
     </div>
-  </div>
-</section>
+  `,
+  setup() {
+    const { ref, reactive } = Vue;
 
-<!-- ===== PORTFOLIO ===== -->
-<section id="portfolio">
-  <div class="container">
-    <h2 class="section-title"><i class="fas fa-folder-open"></i> Портфолио</h2>
-    <div class="portfolio-grid">
-      
-      <div class="portfolio-card">
-        <img src="images/dope.png" alt="Альбом Inner Circles">
-        <div class="portfolio-info">
-          <h3>Альбом Inner Circles</h3>
-          <p>Дум сладж альбом об усталости и ненависти, с монументальными, злыми рифами и искажённым шепчущим вокалом, что звучит как крик из бездны.</p>
-          <span class="portfolio-tag">Doom Metal / Sludge</span>
+    const newUser = reactive({ name: '', age: null });
+    const users = ref([]);
+
+    function addUser() {
+      // Простая валидация
+      if (!newUser.name.trim() || !newUser.age) return;
+
+      users.value.push({
+        name: newUser.name.trim(),
+        age: newUser.age
+      });
+
+      // Очистка формы
+      newUser.name = '';
+      newUser.age = null;
+    }
+
+    return { newUser, users, addUser };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 6: Computed — COMPOSITION API
+   ============================================================ */
+const ComputedTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 6. Вычисляемые свойства</h2>
+      <label>Введите число:</label>
+      <input type="number" v-model.number="number" placeholder="0">
+
+      <div class="computed-result">
+        <div class="computed-result__item">
+          <div class="computed-result__label">Число</div>
+          <div class="computed-result__value">{{ number }}</div>
+        </div>
+        <div class="computed-result__item">
+          <div class="computed-result__label">Квадрат</div>
+          <div class="computed-result__value">{{ squared }}</div>
+        </div>
+        <div class="computed-result__item">
+          <div class="computed-result__label">Куб</div>
+          <div class="computed-result__value">{{ cubed }}</div>
         </div>
       </div>
-
-      <div class="portfolio-card">
-        <img src="images/album.png" alt="Pastel Tones Mysticism">
-        <div class="portfolio-info">
-          <h3>Pastel Tones Mysticism</h3>
-          <p>Обложка для моего EP-альбома, выполненная в цифровой графике с использованием мрачных пастельных тонов.</p>
-          <span class="portfolio-tag">Stoner Metal / Cover</span>
-        </div>
-      </div>
-
-      <div class="portfolio-card">
-        <img src="images/logo.jpg" alt="Лого Righteous Jawbone">
-        <div class="portfolio-info">
-          <h3>Лого Righteous Jawbone</h3>
-          <p>Логотип в дум метал стиле, выполненный от руки, вдохновлённый библейской историей о Самсоне.</p>
-          <span class="portfolio-tag">Doom Metal / Logo</span>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
+  `,
+  setup() {
+    const { ref, computed } = Vue;
 
-<!-- ===== CONTACTS ===== -->
-<section id="contacts">
-  <div class="container">
-    <h2 class="section-title"><i class="fas fa-address-card"></i> Контакты</h2>
-    <div class="contacts-wrapper">
-      <a href="mailto:max@voidcurse.ru" class="contact-item">
-        <i class="fas fa-envelope"></i> max@voidcurse.ru
-      </a>
-      <a href="tel:+79001234567" class="contact-item">
-        <i class="fas fa-phone-alt"></i> +7 (900) 123-45-67
-      </a>
-      <div class="social-links">
-        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="#" aria-label="Bandcamp"><i class="fab fa-bandcamp"></i></a>
-        <a href="#" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
+    const number = ref(0);
+
+    const squared = computed(() => number.value * number.value);
+    const cubed = computed(() => number.value * number.value * number.value);
+
+    return { number, squared, cubed };
+  }
+};
+
+/* ============================================================
+   ЗАДАЧА 7: Watch + жизненный цикл — COMPOSITION API
+   ============================================================ */
+const ClockTask = {
+  template: `
+    <div>
+      <h2 class="task__title">Задача 7. Watch и жизненный цикл</h2>
+      <div class="clock">
+        <div class="clock__time">{{ formattedTime }}</div>
+        <div class="clock__greeting">{{ greeting }}</div>
+        <p class="clock__hint">
+          Открой консоль (F12) — там каждую секунду появляется сообщение об обновлении.
+        </p>
       </div>
     </div>
-  </div>
-</section>
+  `,
+  setup() {
+    const { ref, computed, watch, onMounted, onUnmounted } = Vue;
 
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="container footer-grid">
-    <p>&copy; 2026 voidcurse — все права защищены</p>
-    <p>
-      <a href="#about">Обо мне</a> ·
-      <a href="#skills">Навыки</a> ·
-      <a href="#portfolio">Портфолио</a> ·
-      <a href="#contacts">Контакты</a>
-    </p>
-  </div>
-</footer>
+    const currentTime = ref(new Date());
+    let timerId = null;
+
+    // Computed: форматированное время
+    const formattedTime = computed(() => {
+      const d = currentTime.value;
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const ss = String(d.getSeconds()).padStart(2, '0');
+      return `${hh}:${mm}:${ss}`;
+    });
+
+    // Computed: приветствие по часу
+    const greeting = computed(() => {
+      const hour = currentTime.value.getHours();
+      if (hour >= 5 && hour < 12) return 'Доброе утро 🌅';
+      if (hour >= 12 && hour < 18) return 'Добрый день ☀️';
+      if (hour >= 18 && hour < 23) return 'Добрый вечер 🌆';
+      return 'Доброй ночи 🌙';
+    });
+
+    // Watch: следим за изменением времени
+    watch(currentTime, (newVal, oldVal) => {
+      console.log(
+        '[Watch] Время обновилось:',
+        newVal.toLocaleTimeString('ru-RU')
+      );
+    });
+
+    // Жизненный цикл: запускаем таймер при монтировании
+    onMounted(() => {
+      console.log('[onMounted] Компонент часов запущен');
+      timerId = setInterval(() => {
+        currentTime.value = new Date();
+      }, 1000);
+    });
+
+    // Жизненный цикл: очищаем таймер при размонтировании
+    onUnmounted(() => {
+      console.log('[onUnmounted] Компонент часов остановлен');
+      if (timerId) clearInterval(timerId);
+    });
+
+    return { formattedTime, greeting };
+  }
+};
+
+/* ============================================================
+   СОЗДАНИЕ ПРИЛОЖЕНИЯ VUE
+   ============================================================ */
+const { createApp } = Vue;
+
+const app = createApp({});
+
+// Регистрация всех компонентов
+app.component('greeting-task', GreetingTask);
+app.component('counter-task', CounterTask);
+app.component('toggle-task', ToggleTask);
+app.component('list-task', ListTask);
+app.component('form-task', FormTask);
+app.component('computed-task', ComputedTask);
+app.component('clock-task', ClockTask);
+
+// Монтирование
+app.mount('#app');
+</script>
 
 </body>
 </html>

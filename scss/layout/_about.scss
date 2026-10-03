@@ -1,0 +1,79 @@
+@use '../utils' as *;
+
+.about {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: rem(40px);
+    background: var(--color-bg-card);
+    padding: rem(40px) rem(44px);
+    border-radius: $radius-md;
+    box-shadow: $shadow-card;
+    border: 1px solid var(--color-border);
+
+    @include respond-to(tablet) {
+      grid-template-columns: 1fr;
+      gap: rem(30px);
+      padding: rem(30px) rem(32px);
+    }
+
+    @include respond-to(mobile) {
+      padding: rem(20px) rem(18px);
+      gap: rem(20px);
+    }
+  }
+
+  &__text {
+    p {
+      font-size: rem(18px);
+      color: var(--color-text-muted);
+      margin-bottom: rem(18px);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @include respond-to(mobile) {
+      p {
+        font-size: rem(16px);
+      }
+    }
+  }
+}
+
+// ----- Достижения -----
+.achievements {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12px);
+  padding-left: rem(8px);
+
+  &__item {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: rem(14px);
+    font-size: rem(17px);
+    padding: rem(10px) rem(14px);
+    background: var(--color-bg-primary);
+    border-radius: rem(12px);
+    transition: background $transition-base;
+    border-left: 3px solid var(--color-accent);
+
+    i {
+      color: var(--color-accent);
+      width: rem(24px);
+      font-size: rem(19px);
+    }
+
+    &:hover {
+      background: var(--color-bg-card);
+    }
+
+    @include respond-to(mobile) {
+      font-size: rem(15px);
+      padding: rem(8px) rem(12px);
+    }
+  }
+}

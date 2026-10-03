@@ -1,0 +1,15 @@
+@use 'sass:math';
+@use 'variables' as *;
+
+// Перевод px → rem
+@function rem($px) {
+  @return math.div($px, $base-font-size) * 1rem;
+}
+
+// Получить значение из карты брейкпоинтов
+@function bp($name) {
+  @if not map-has-key($breakpoints, $name) {
+    @error "Брейкпоинт `#{$name}` не найден в $breakpoints!";
+  }
+  @return map-get($breakpoints, $name);
+}
