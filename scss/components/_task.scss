@@ -1,0 +1,62 @@
+@use '../utils' as *;
+
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: rem(12px);
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: rem(16px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: $radius-md;
+  transition: border-color $transition;
+
+  &:hover {
+    border-color: var(--text-muted);
+  }
+
+  &--done {
+    opacity: 0.6;
+    .task__title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: rem(12px);
+    cursor: pointer;
+    flex: 1;
+  }
+
+  &__checkbox {
+    width: rem(20px);
+    height: rem(20px);
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+
+  &__title {
+    font-size: rem(16px);
+    word-break: break-word;
+  }
+
+  &__actions {
+    display: flex;
+    gap: rem(8px);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: rem(32px) 0;
+}

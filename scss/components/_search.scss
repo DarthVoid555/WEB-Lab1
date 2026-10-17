@@ -1,0 +1,24 @@
+@use '../utils' as *;
+
+.search {
+  &__input {
+    width: 100%;
+    padding: rem(12px) rem(16px);
+    border: 1px solid var(--border);
+    border-radius: $radius-sm;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-size: rem(16px);
+    transition: border-color $transition;
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+  }
+}
+
+.tasks-header {
+  display: flex;
+  justify-content: flex-end;
+}
