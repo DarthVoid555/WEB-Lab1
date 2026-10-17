@@ -1,4 +1,4 @@
-to-do list на sass
+voidcurse портфолио
 
 # Автор
 Максим  
