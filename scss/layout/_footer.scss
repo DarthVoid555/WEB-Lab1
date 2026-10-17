@@ -1,0 +1,44 @@
+@use '../utils' as *;
+
+.footer {
+  background: var(--color-bg-card);
+  border-top: 2px solid var(--color-border);
+  padding: rem(28px) 0;
+  margin-top: rem(20px);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: rem(16px);
+
+    @include respond-to(mobile) {
+      flex-direction: column;
+      text-align: center;
+      gap: rem(8px);
+    }
+  }
+
+  &__copy {
+    color: var(--color-text-muted);
+    font-size: rem(15px);
+
+    @include respond-to(mobile) {
+      font-size: rem(14px);
+    }
+  }
+
+  &__nav {
+    a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      margin: 0 rem(8px);
+      transition: color $transition-base;
+
+      &:hover {
+        color: var(--color-accent);
+      }
+    }
+  }
+}

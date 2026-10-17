@@ -1,0 +1,43 @@
+@use '../utils' as *;
+
+.btn {
+  padding: rem(10px) rem(20px);
+  border-radius: $radius-sm;
+  font-weight: 600;
+  font-size: rem(14px);
+  transition: background $transition, transform $transition;
+
+  &--primary {
+    background: var(--accent);
+    color: #fff;
+    &:hover { background: var(--accent-hover); }
+  }
+
+  &--secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    &:hover { border-color: var(--text-muted); }
+  }
+}
+
+.btn-icon {
+  width: rem(32px);
+  height: rem(32px);
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: background $transition, color $transition;
+  font-size: rem(16px);
+
+  &:hover {
+    background: var(--bg-primary);
+    color: var(--accent);
+  }
+
+  &--danger:hover {
+    color: var(--danger);
+  }
+}
