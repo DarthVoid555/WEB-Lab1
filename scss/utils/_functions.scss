@@ -1,0 +1,14 @@
+@use 'sass:math';
+@use 'sass:map';
+@use 'variables' as *;
+
+@function rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+@function bp($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error "Брейкпоинт `#{$name}` не найден!";
+  }
+  @return map.get($breakpoints, $name);
+}

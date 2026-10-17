@@ -1,0 +1,20 @@
+[
+    {
+      "title": "Альбом «Inner Circles»",
+      "description": "Дум сладж альбом об усталости и ненависти, с монументальными рифами и искажённым вокалом.",
+      "image": "images/inner-circles.png",
+      "tags": ["Doom Metal", "Sludge"]
+    },
+    {
+      "title": "Pastel Tones Mysticism",
+      "description": "Обложка для EP-альбома, выполненная в цифровой графике с использованием мрачных пастельных тонов.",
+      "image": "images/pastel-tones.png",
+      "tags": ["Stoner Metal", "Cover"]
+    },
+    {
+      "title": "Лого Righteous Jawbone",
+      "description": "Логотип в дум метал стиле, выполненный от руки, вдохновлённый библейской историей о Самсоне.",
+      "image": "images/righteous-jawbone.jpg",
+      "tags": ["Doom Metal", "Logo"]
+    }
+  ]

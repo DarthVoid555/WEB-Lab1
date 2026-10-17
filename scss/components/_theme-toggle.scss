@@ -1,0 +1,18 @@
+@use '../utils' as *;
+
+.theme-toggle {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  width: rem(44px);
+  height: rem(44px);
+  border-radius: $radius-round;
+  font-size: rem(18px);
+  transition: $transition-base;
+  @include flex-center;
+
+  &:hover {
+    background: var(--color-accent);
+    color: #fff;
+  }
+}

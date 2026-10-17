@@ -1,0 +1,112 @@
+@use '../utils' as *;
+
+.card {
+  background: var(--color-bg-card);
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  transition: transform $transition-base, box-shadow $transition-base;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--color-border);
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 24px 40px rgba(148, 2, 2, 0.15);
+    border-color: var(--color-accent);
+  }
+
+  &__image {
+    width: 100%;
+    height: rem(200px);
+    object-fit: cover;
+    display: block;
+    background: var(--color-bg-primary);
+    flex-shrink: 0;
+
+    @include respond-to(mobile) {
+      height: rem(180px);
+    }
+  }
+
+  &__info {
+    padding: rem(20px) rem(22px) rem(24px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    @include respond-to(mobile) {
+      padding: rem(16px) rem(18px) rem(20px);
+    }
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: rem(19px);
+    margin-bottom: rem(6px);
+    letter-spacing: 1px;
+
+    @include respond-to(mobile) {
+      font-size: rem(18px);
+    }
+  }
+
+  &__text {
+    color: var(--color-text-muted);
+    font-size: rem(15px);
+    flex: 1;
+    line-height: 1.5;
+
+    @include respond-to(mobile) {
+      font-size: rem(14px);
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(6px);
+    margin-top: auto;
+    padding-top: rem(12px);
+  }
+
+  &__tag {
+    display: inline-block;
+    background: var(--color-bg-primary);
+    color: var(--color-accent);
+    font-size: rem(12px);
+    font-weight: 600;
+    padding: rem(4px) rem(14px);
+    border-radius: rem(40px);
+    letter-spacing: 0.5px;
+    border: 1px solid var(--color-border);
+  }
+}
+
+// ----- Сетка портфолио -----
+.portfolio {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: rem(30px);
+
+    @include respond-to(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+      gap: rem(20px);
+    }
+  }
+
+  &__loading,
+  &__error {
+    color: var(--color-text-muted);
+    text-align: center;
+    font-size: rem(18px);
+    grid-column: 1 / -1;
+    padding: rem(40px) 0;
+  }
+}

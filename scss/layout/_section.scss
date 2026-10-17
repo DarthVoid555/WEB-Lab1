@@ -1,0 +1,11 @@
+@use '../utils' as *;
+
+.section {
+  padding: rem(70px) 0 rem(60px);
+  scroll-margin-top: rem(80px);
+
+  @include respond-to(mobile) {
+    padding: rem(40px) 0 rem(30px);
+    scroll-margin-top: rem(100px);
+  }
+}
