@@ -1,12 +1,20 @@
 {
-    "name": "lab-3-portfolio",
-    "version": "1.0.0",
-    "description": "Портфолио с Sass и темами",
-    "scripts": {
-      "sass:dev": "sass --watch scss/main.scss:dist/css/main.css",
-      "build": "sass --no-source-map --style=compressed scss/main.scss:dist/css/main.css"
-    },
-    "devDependencies": {
-      "sass": "^1.80.0"
-    }
+  "name": "lab1-portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
   }
+}
